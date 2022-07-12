@@ -7,11 +7,12 @@ Spin up a full vCenter/LSC/Avi/AKO environment (through Terraform) with:
 
 ## Prerequisites:
 - TF installed in the orchestrator VM
-- VM templates configured in V-center:
+- VM templates configured in vCenter:
 ```
 - ubuntu-xenial-16.04-cloudimg-template (which can be downloaded here: http://cloud-images-archive.ubuntu.com/releases/xenial/release-20180105/ubuntu-16.04-server-cloudimg-amd64.ova)
+- ubuntu-bionic-18.04-cloudimg-template
 - ubuntu-focal-20.04-cloudimg-template
-- controller-21.1.1-9045-template
+- controller-21.1.4-9210-template
 ```
 - SSH key public and private available defined in jump.public_key_path and jump.private_key_path
 
@@ -75,13 +76,6 @@ while true ; do ab -n 1000 -c 1000 https://100.64.133.51/ ; done
 
 ## Run terraform:
 ```
-cd ~ ; rm -fr aviVmw ; git clone https://github.com/tacobayle/aviVmw ; cd aviVmw ; terraform init ; terraform apply -auto-approve
+cd ~ ; rm -fr tfAviAkoVcenterLsc ; git clone https://github.com/tacobayle/tfAviAkoVcenterLsc ; cd tfAviAkoVcenterLsc ; terraform init ; terraform apply -auto-approve -var-file=variables.json
 # the terraform will output the command to destroy the environment something like:
-ssh -o StrictHostKeyChecking=no -i ~/.ssh/cloudKey -t ubuntu@10.41.135.69  'git clone https://github.com/tacobayle/ansiblePbAviAbsent --branch v1.54 ; cd ansiblePbAviAbsent ; ansible-playbook local.yml --extra-vars @~/.avicreds.json' ; sleep 5 ; terraform destroy -auto-approve ; cd ~/aviVmw ; terraform destroy -auto-approve ; cd ~ ; rm -fr aviVmw ; git clone https://github.com/tacobayle/aviVmw; cd aviVmw ; terraform init ; terraform apply -auto-approve
 ```
-
-## compatibility matrix
-- tag v3.18: vCenter 6.7.0, K8S 1.18.2-00, Avi 20.1.3
-- tag v3.24: vCenter 6.7.0, K8S 1.18.2-00, Avi 20.1.6
-- tag v3.3: vCenter 6.7.0, K8S 1.21.3-00, Avi 20.1.6, AKO, 1.4.3
-- tag v3.58: vCenter 6.7.0, K8S 1.21.3-00, Avi 21.1.1, AKO, 1.5.1
