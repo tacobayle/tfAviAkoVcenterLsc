@@ -99,7 +99,7 @@ resource "null_resource" "traffic_gen_vcenter" {
   depends_on = [null_resource.traffic_gen1]
   count = length(var.avi.config.vcenter.virtual_services.http)
   provisioner "local-exec" {
-    command = "echo 'for i in {1..10}; do curl -k https://${var.avi.config.vcenter.virtual_services.http[count.index].name}.${var.avi.config.vcenter.domains[0].name}; sleep 0.5 ; done' | tee -a traffic_gen.sh"
+    command = "echo 'for i in {1..20}; do curl -k https://${var.avi.config.vcenter.virtual_services.http[count.index].name}.${var.avi.config.vcenter.domains[0].name}; sleep 0.5 ; done' | tee -a traffic_gen.sh"
   }
 }
 
@@ -108,7 +108,7 @@ resource "null_resource" "traffic_gen_lsc" {
   count      = length(var.avi.config.lsc.virtualservices.http)
 
   provisioner "local-exec" {
-    command = "echo 'for i in {1..4}; do curl -k https://${var.avi.config.lsc.virtualservices.http[count.index].name}.${var.avi.config.lsc.domains[0].name}; sleep 0.5 ; done' | tee -a traffic_gen.sh"
+    command = "echo 'for i in {1..10}; do curl -k https://${var.avi.config.lsc.virtualservices.http[count.index].name}.${var.avi.config.lsc.domains[0].name}; sleep 0.5 ; done' | tee -a traffic_gen.sh"
   }
 
 }
